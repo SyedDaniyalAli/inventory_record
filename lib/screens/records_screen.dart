@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:inventory_record/providers/record.dart';
-import '../models/record.dart';
-import 'package:inventory_record/widgets/record_Item.dart';
 import 'package:provider/provider.dart';
+
+import '../providers/record.dart';
+import '../widgets/bottom_sheet.dart';
+import '../widgets/custom_action_button.dart';
+import '../widgets/record_Item.dart';
 
 class RecordsScreen extends StatelessWidget {
   @override
@@ -29,10 +31,34 @@ class RecordsScreen extends StatelessWidget {
                                     RecordItem(currentRecord.item[i]),
                               ),
                     child: Center(
-                      child: const Text('Got no places yes, start adding some'),
+                      child: const Text(
+                          'Dear Faisal: \nThere is no Records yet, try start adding some'),
                     ),
                   ),
       ),
+      floatingActionButton: CustomActionButton(
+        onPressed: () {
+          _showTransactionModalSheet(context);
+        },
+        btnText: 'Add Record', icon: Icons.add,
+      ),
     );
   }
+}
+
+//Show Bottom Sheet~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void _showTransactionModalSheet(BuildContext ctx) {
+  showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      context: ctx,
+      builder: (_) {
+        return GestureDetector(
+          onTap: () {},
+          child: CustomBottomSheet(),
+          behavior: HitTestBehavior.opaque,
+        );
+      });
 }
