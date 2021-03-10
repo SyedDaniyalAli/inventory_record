@@ -12,7 +12,8 @@ class RecordItem extends StatelessWidget {
         child: Text('#'+_record.id),
       ),
       title: Text('Name:'+_record.clientName),
-      subtitle: Row(
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Date of Purchase Date: '+_record.purchaseDate.toString()),
           Text('Purchase Price: '+_record.purchasePrice.toString()),

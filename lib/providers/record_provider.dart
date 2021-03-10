@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:inventory_record/helpers/dbHelper.dart';
 import 'package:provider/provider.dart';
 import '../models/record.dart';
+import 'package:intl/intl.dart';
 
 class RecordProvider extends ChangeNotifier {
   List<Record> _item = [];
@@ -19,12 +20,23 @@ class RecordProvider extends ChangeNotifier {
     final dataList = await DBHelper.getData();
     _item = dataList.map(
       (currentItem) => Record(
-        id: currentItem['id'],
+        id: currentItem['id'].toString(),
         clientName: currentItem['clientName'],
-        purchaseDate: currentItem['purchaseDate'],
-        purchasePrice: currentItem['purchasePrice'],
-        retailPrice: currentItem['retailPrice'],
+        purchaseDate: DateTime.parse(currentItem['purchaseDate']),
+        purchasePrice: double.parse(currentItem['purchasePrice']),
+        retailPrice: double.parse(currentItem['retailPrice']),
       ),
+    ).toList();
+    notifyListeners();
+  }
+
+  Future<void> addRecord(Record record) async {
+    await DBHelper.insert(
+      clientName: record.clientName,
+      purchaseDate: record.purchaseDate,
+      purchasePrice: record.purchasePrice,
+      retailPrice: record.retailPrice,
     );
+    notifyListeners();
   }
 }

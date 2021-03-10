@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/record.dart';
+import '../providers/record_provider.dart';
 import '../widgets/bottom_sheet.dart';
 import '../widgets/custom_action_button.dart';
 import '../widgets/record_Item.dart';
