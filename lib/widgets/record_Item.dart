@@ -9,7 +9,7 @@ class RecordItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: CircleAvatar(
-        child: Text('#'+_record.id),
+        child: Text('# ${_record.id}'),
       ),
       title: Text('Name:'+_record.clientName),
       subtitle: Column(

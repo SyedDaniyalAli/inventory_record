@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:inventory_record/helpers/dbHelper.dart';
-import 'package:provider/provider.dart';
 import '../models/record.dart';
-import 'package:intl/intl.dart';
 
 class RecordProvider extends ChangeNotifier {
   List<Record> _item = [];
@@ -18,19 +16,28 @@ class RecordProvider extends ChangeNotifier {
 
   Future<void> fetchAndSetRecord() async {
     final dataList = await DBHelper.getData();
-    _item = dataList.map(
-      (currentItem) => Record(
-        id: currentItem['id'].toString(),
-        clientName: currentItem['clientName'],
-        purchaseDate: DateTime.parse(currentItem['purchaseDate']),
-        purchasePrice: double.parse(currentItem['purchasePrice']),
-        retailPrice: double.parse(currentItem['retailPrice']),
-      ),
-    ).toList();
+    _item = dataList
+        .map(
+          (currentItem) => Record(
+            id: currentItem['id'].toString(),
+            clientName: currentItem['clientName'],
+            purchaseDate: DateTime.parse(currentItem['purchaseDate']),
+            purchasePrice: double.parse(currentItem['purchasePrice']),
+            retailPrice: double.parse(currentItem['retailPrice']),
+          ),
+        )
+        .toList();
     notifyListeners();
   }
 
   Future<void> addRecord(Record record) async {
+    _item.add(Record(
+        id: '${_item.length + 1}',
+        clientName: record.clientName,
+        purchaseDate: record.purchaseDate,
+        purchasePrice: record.purchasePrice,
+        retailPrice: record.retailPrice));
+
     await DBHelper.insert(
       clientName: record.clientName,
       purchaseDate: record.purchaseDate,
