@@ -45,4 +45,9 @@ class DBHelper {
     final db = await DBHelper.database();
     return db.query(TABLE_NAME); // It will return the list of Maps
   }
+
+  static Future<void> remove(String id) async {
+    final db = await DBHelper.database();
+    db.delete(TABLE_NAME, where: 'id=?', whereArgs: [int.parse(id)]);
+  }
 }

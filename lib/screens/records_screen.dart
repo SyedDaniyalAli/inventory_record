@@ -6,7 +6,28 @@ import '../widgets/bottom_sheet.dart';
 import '../widgets/custom_action_button.dart';
 import '../widgets/record_Item.dart';
 
-class RecordsScreen extends StatelessWidget {
+class RecordsScreen extends StatefulWidget {
+  @override
+  _RecordsScreenState createState() => _RecordsScreenState();
+}
+
+class _RecordsScreenState extends State<RecordsScreen> {
+  void _removeItem(BuildContext context, String id) {
+    Provider.of<RecordProvider>(context, listen: false).deleteRecord(id);
+    // Show a snackbar. This snackbar could also contain "Undo" actions.
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Record Deleted"),
+        // action: SnackBarAction(
+        //     label: "UNDO",
+        //     onPressed: () => setState(
+        //           () => _list.insert(index, deletedItem),
+        //         ) // this is what you needed
+        //     ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,8 +48,10 @@ class RecordsScreen extends StatelessWidget {
                             ? child
                             : ListView.builder(
                                 itemCount: currentRecord.item.length,
-                                itemBuilder: (ctx, i) =>
-                                    RecordItem(currentRecord.item[i]),
+                                itemBuilder: (ctx, i) => RecordItem(
+                                  record: currentRecord.item[i],
+                                  removeItem: _removeItem,
+                                ),
                               ),
                     child: Center(
                       child: const Text(
@@ -40,7 +63,8 @@ class RecordsScreen extends StatelessWidget {
         onPressed: () {
           _showTransactionModalSheet(context);
         },
-        btnText: 'Add Record', icon: Icons.add,
+        btnText: 'Add Record',
+        icon: Icons.add,
       ),
     );
   }

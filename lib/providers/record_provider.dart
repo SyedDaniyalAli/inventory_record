@@ -46,4 +46,15 @@ class RecordProvider extends ChangeNotifier {
     );
     notifyListeners();
   }
+
+  Future<void> deleteRecord(String id) async {
+    _item.removeWhere((element) => element.id == id);
+
+    await DBHelper.remove(id);
+    print("Record Provider: "+id+" is deleted");
+    notifyListeners();
+  }
+
+
+
 }

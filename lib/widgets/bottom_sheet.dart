@@ -4,7 +4,6 @@ import 'package:inventory_record/models/record.dart';
 import 'package:provider/provider.dart';
 import '../providers/record_provider.dart';
 import '../widgets/custom_action_button.dart';
-import '../helpers/dbHelper.dart';
 
 class CustomBottomSheet extends StatefulWidget {
   @override
@@ -113,7 +112,9 @@ class _BottomSheetState extends State<CustomBottomSheet> {
                 controller: _purchasePriceController,
                 keyboardType: TextInputType.numberWithOptions(signed: false),
                 validator: (value) {
-                  if (value.isEmpty || int.tryParse(value).isNegative) {
+                  if (value == null ||
+                      value.isEmpty ||
+                      int.tryParse(value).isNegative) {
                     return "Purchase price is not valid";
                   }
                   return null;
@@ -124,7 +125,9 @@ class _BottomSheetState extends State<CustomBottomSheet> {
                 controller: _retailPriceController,
                 keyboardType: TextInputType.numberWithOptions(signed: false),
                 validator: (value) {
-                  if (value.isEmpty || int.tryParse(value).isNegative) {
+                  if (value == null ||
+                      value.isEmpty ||
+                      int.tryParse(value).isNegative) {
                     return "Retail price is not valid";
                   }
                   return null;
